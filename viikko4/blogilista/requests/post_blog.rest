@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs/
 content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxvbCIsImlkIjoiNjEyOGQxMmMyNWI5NjE4YzcyMGI3NTZkIiwiaWF0IjoxNjMwMDY0OTU3fQ.hM-AWxWitLTCh4NmeXDi-K5QJ7CEieg-2fY5mt4NKWc
 
 {
-  "title": "Nimi1",
-  "author": "Tekijä",
+  "title": "Perjantai",
+  "author": "Matti Teuvonen",
   "url": "linkki",
-  "likes": "100"
+  "likes": "50"
 }
