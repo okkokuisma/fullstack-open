@@ -6,6 +6,7 @@ import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommend from './components/Recommend'
 import EditAuthors from './components/EditAuthors'
+import Moi from './components/Moi'
 import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 
 const App = () => {
@@ -38,8 +39,8 @@ const App = () => {
         {!token ? <button onClick={() => setPage('login')}>login</button> : null}
         {token ? <button onClick={() => logout()}>logout</button> : null}
       </div>
-
-      <Authors show={page === 'authors'} authors={authors} />
+      <Moi />
+      {/* <Authors show={page === 'authors'} authors={authors} />
 
       <EditAuthors show={page === 'editAuthor'} authors={authors} />
 
@@ -49,7 +50,7 @@ const App = () => {
 
       <Recommend show={page === 'recommend'} books={books} user={user} />
 
-      <Login show={page === 'login' && !token} setToken={setToken} setUser={setUser} />
+      <Login show={page === 'login' && !token} setToken={setToken} setUser={setUser} /> */}
     </div>
   )
 }
