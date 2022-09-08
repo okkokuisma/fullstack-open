@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    image: kirjasto-front
+    build:
+      context: ./kirjasto-frontend
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+    container_name: kirjasto-front
+
+  server:
+    image: kirjasto-back
+    build:
+      context: ./kirjasto-backend
+      dockerfile: Dockerfile
+    expose:
+      - "4000"
+    environment:
+      - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
+      - JWT_SECRET=halojatahalloo
+
+  mongo:
+    image: mongo
+    expose:
+      - "27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./kirjasto-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./kirjasto-backend/mongo_data:/data/db
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - app
+      - server

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    image: kirjasto-front-dev
+    build:
+      context: ./kirjasto-frontend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./kirjasto-frontend/:/usr/src/app
+    ports:
+      - 3000:3000
+    container_name: kirjasto-front-dev
+
+  server:
+    image: kirjasto-back-dev
+    build:
+      context: ./kirjasto-backend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./kirjasto-backend/:/usr/src/app
+    ports:
+      - 4000:4000
+    environment:
+      - MONGO_URL=mongodb://the_username:the_password@mongo:27017/the_database
+      - JWT_SECRET=halojatahalloo
+    container_name: kirjasto-back-dev
+
+  mongo:
+    image: mongo
+    expose:
+      - "27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./kirjasto-backend/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./kirjasto-backend/mongo_data:/data/db
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - app
+      - server
